@@ -15,6 +15,7 @@ public class UserService {
     }
 
     public User registerNewUser(User user) throws SQLException {
+        //TODO: check if username already exists and other constraints
         return userDAO.saveUser(user);
     }
 

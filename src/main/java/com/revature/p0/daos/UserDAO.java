@@ -14,26 +14,6 @@ public class UserDAO {
     }
 
     // READ: user (by id or username)
-    public User getUserByid(Integer id) throws SQLException {
-        String sql = "SELECT * FROM users WHERE username = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-
-        ResultSet results = ps.executeQuery();
-
-        User user = new User();
-        if(results.next()) {
-            user.setFirstName(results.getString("first_name"));
-            user.setLastName(results.getString("last_name"));
-            user.setUsername(results.getString("username"));
-            user.setPassword(results.getString("password"));
-            user.setEmail(results.getString("email"));
-            user.setPhone(results.getString("phone"));
-        }
-        return user;
-
-    }
-
     public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -54,10 +34,10 @@ public class UserDAO {
 
     }
 
-    // CREATE: user
+    // CREATE & UPDATE: user
     public User saveUser(User user) throws SQLException {
         if(user.getId() == null) {  // can only do this statement if id is Integer and not int
-            // then it is a new user --> CREATE
+            // CREATE user --> if user id does NOT exist
             String sql = "INSERT INTO users(first_name, last_name, username, password, email, phone) VALUES(?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getFirstName());
@@ -74,7 +54,7 @@ public class UserDAO {
             }
 
         } else {
-            // then it is an existing user --> UPDATE
+            // UPDATE user --> if user id EXISTS
             String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?, email = ?, phone = ?) VALUES(?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getFirstName());
@@ -89,7 +69,6 @@ public class UserDAO {
         return user;
     }
 
-    // UPDATE: user
     // DELETE: user
 
 }
