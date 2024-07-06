@@ -80,14 +80,4 @@ public class TransactionDAO {
         return transaction;
     }
 
-
-    // DELETE transaction TODO: check if correct
-    public Transaction deleteTransaction(Transaction transaction) throws SQLException {
-        String sql = "DELETE FROM transactions WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, transaction.getId());
-        ps.executeUpdate();
-        return transaction;
-    }
-
 }
