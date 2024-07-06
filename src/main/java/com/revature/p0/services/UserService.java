@@ -1,9 +1,8 @@
 package com.revature.p0.services;
 
 import com.revature.p0.daos.UserDAO;
-import com.revature.p0.exceptions.BadPasswordException;
-import com.revature.p0.exceptions.NoSuchUserException;
 import com.revature.p0.models.User;
+import com.revature.p0.exceptions.*;
 
 import java.sql.SQLException;
 
