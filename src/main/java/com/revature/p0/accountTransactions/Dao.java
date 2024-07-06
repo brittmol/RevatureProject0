@@ -2,9 +2,9 @@ package com.revature.p0.accountTransactions;
 
 import java.sql.SQLException;
 
-public interface Dao<T, PK> {
-    T read(PK pk);
-    void create(T t) throws SQLException;
-    void update(T t);
-    void delete(T t);
+public interface Dao<DemoModel> {
+    DemoModel read(int id) throws SQLException;
+    void create(DemoModel model) throws SQLException;
+    void update(DemoModel model) throws SQLException;
+    void delete(DemoModel model) throws SQLException;
 }

@@ -1,12 +1,11 @@
 package com.revature.p0.models;
 
+import java.util.Date;
+
 public class Transaction {
-    private int accountId;
     private String transactionType;
-    private Float amount;
-    private String transactionDate; // timestamp
-    Account sourceAccount;
-    Account destinationAccount;
+    private Double amount;
+    Account account;
 
     // create constructor
     // create getters & setters
