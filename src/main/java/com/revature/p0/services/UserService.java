@@ -19,6 +19,11 @@ public class UserService {
         return userDAO.saveUser(user);
     }
 
+    public User updateUser(User user) throws SQLException {
+        //TODO: check constraints
+        return userDAO.saveUser(user);
+    }
+
     public User authenticateUser(String username, String password) throws NoSuchUserException, BadPasswordException {
         User user;
         try{
