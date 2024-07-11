@@ -13,6 +13,10 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
+    public User getUserByUsername(String username) throws SQLException {
+        return userDAO.getUserByUsername(username);
+    }
+
     public User registerNewUser(User user) throws SQLException {
         //TODO: check if username already exists and other constraints
         return userDAO.saveUser(user);
@@ -23,19 +27,15 @@ public class UserService {
         return userDAO.saveUser(user);
     }
 
-    public User authenticateUser(String username, String password) throws NoSuchUserException, BadPasswordException {
-        User user;
-        try{
-           user = userDAO.getUserByUsername(username);
-        } catch (SQLException e) {
-            throw new NoSuchUserException("User not found");
-        }
-
-        if(user.getPassword().equals(password)) {
-            return user;
-        } else {
-            throw new BadPasswordException("Password mismatch!");
-        }
+    public User authenticateUser(String username, String password) throws NoSuchUserException, BadPasswordException, SQLException {
+           User user = userDAO.getUserByUsername(username);
+           if(user == null) {
+               throw new NoSuchUserException("User not found");
+           } else if(user.getPassword().equals(password)) {
+               return user;
+           } else {
+               throw new BadPasswordException("Password mismatch!");
+           }
     }
 
 }
