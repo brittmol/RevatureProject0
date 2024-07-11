@@ -17,7 +17,7 @@ import java.sql.SQLException;
 
 public class Driver {
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        Javalin api = Javalin.create().start(7777);
+        Javalin api = Javalin.create().start(7777); //
         Connection conn = ConnectionUtil.getConnection();
 
         UserDAO userDAO = new UserDAO(conn);
@@ -29,7 +29,7 @@ public class Driver {
         TransactionService transactionService = new TransactionService(transactionDAO, accountDAO);
 
         UserController userController = new UserController(userService, api);
-        AccountController accountController = new AccountController(accountService, api);
+        AccountController accountController = new AccountController(accountService, userService, api);
         TransactionController transactionController = new TransactionController(transactionService, api);
     }
 }

@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
 
         // *** request handlers ***
-        api.get("/user/{username}", this::getUserByUsername);
+        api.get("/users/{username}", this::getUserByUsername);
         api.post("/login", this::login);
         api.post("/register", this::register);
         api.put("/users/{username}", this::updateUser);
@@ -47,7 +47,6 @@ public class UserController {
     }
 
     public void updateUser(Context ctx) throws SQLException {
-        String usernameFromPath = ctx.pathParam("username");
         User userFromBody = ctx.bodyAsClass(User.class);
         User resultUser = userService.updateUser(userFromBody);
         // if resultUser != null --> else send 401?

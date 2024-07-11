@@ -23,6 +23,7 @@ public class UserDAO {
 
         User user = new User();
         if(results.next()) {
+            user.setId(results.getInt("id"));
             user.setFirstName(results.getString("first_name"));
             user.setLastName(results.getString("last_name"));
             user.setUsername(results.getString("username"));
@@ -55,7 +56,7 @@ public class UserDAO {
 
         } else {
             // UPDATE user --> if user id EXISTS
-            String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?, email = ?, phone = ?) VALUES(?,?,?,?,?,?)";
+            String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?, email = ?, phone = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
@@ -63,6 +64,7 @@ public class UserDAO {
             ps.setString(4, user.getPassword());
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getPhone());
+            ps.setInt(7, user.getId());
 
             ps.executeUpdate();
         }
