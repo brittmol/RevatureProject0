@@ -26,6 +26,7 @@ public class AccountDAO {
         // TODO: should we be doing while loop or if?
         while(results.next()) {
             Account account = new Account();
+            account.setId(results.getInt("id"));
             account.setAccountType(results.getString("account_type"));
             account.setBalance(results.getDouble("balance"));
             account.setUserId(results.getInt("user_id"));
@@ -44,6 +45,7 @@ public class AccountDAO {
         ResultSet results = ps.executeQuery();
         Account account = new Account();
         if(results.next()) {
+            account.setId(results.getInt("id"));
             account.setAccountType(results.getString("account_type"));
             account.setBalance(results.getDouble("balance"));
             account.setUserId(results.getInt("user_id"));
@@ -69,11 +71,12 @@ public class AccountDAO {
 
         } else {
             // UPDATE account
-            String sql = "UPDATE accounts SET account_type = ?, balance = ?, user_id = ?";
+            String sql = "UPDATE accounts SET account_type = ?, balance = ?, user_id = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, account.getAccountType());
             ps.setDouble(2, account.getBalance());
             ps.setInt(3, account.getUserId());
+            ps.setInt(4, account.getId());
 
             ps.executeUpdate();
         }

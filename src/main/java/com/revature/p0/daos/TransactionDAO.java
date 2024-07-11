@@ -26,6 +26,7 @@ public class TransactionDAO {
         // TODO: should we be doing while loop or if?
         while(results.next()) {
             Transaction transaction = new Transaction();
+            transaction.setId(results.getInt("id"));
             transaction.setTransactionType(results.getString("transaction_type"));
             transaction.setAmount(results.getDouble("amount"));
             transaction.setAccountId(results.getInt("account_id"));
@@ -44,6 +45,7 @@ public class TransactionDAO {
         ResultSet results = ps.executeQuery();
         Transaction transaction = new Transaction();
         if(results.next()) {
+            transaction.setId(results.getInt("id"));
             transaction.setTransactionType(results.getString("transaction_type"));
             transaction.setAmount(results.getDouble("amount"));
             transaction.setAccountId(results.getInt("account_id"));
@@ -69,11 +71,12 @@ public class TransactionDAO {
 
         } else {
             // UPDATE transaction
-            String sql = "UPDATE transactions SET transaction_type = ?, balance = ?, account_id = ?";
+            String sql = "UPDATE transactions SET transaction_type = ?, balance = ?, account_id = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, transaction.getTransactionType());
             ps.setDouble(2, transaction.getAmount());
             ps.setInt(3, transaction.getAccountId());
+            ps.setInt(4, transaction.getId());
 
             ps.executeUpdate();
         }
