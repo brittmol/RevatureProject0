@@ -4,6 +4,7 @@ import com.revature.p0.exceptions.BadPasswordException;
 import com.revature.p0.exceptions.NoSuchUserException;
 import com.revature.p0.models.User;
 import com.revature.p0.services.UserService;
+import com.revature.p0.utils.CookieUtil;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -34,15 +35,17 @@ public class UserController {
         User userFromBody = ctx.bodyAsClass(User.class);
         User resultUser = userService.authenticateUser(userFromBody.getUsername(), userFromBody.getPassword());
         // if resultUser != null --> else send 401?
+        ctx.cookie(CookieUtil.createAuthCookie(resultUser));
         ctx.json(resultUser).status(200);
 
-        ctx.header("Auth", resultUser.getUsername()); // why is this necessary? alternate for session persistance
+//        ctx.header("Auth", resultUser.getUsername()); // why is this necessary? alternate for session persistance
     }
 
     public void register(Context ctx) throws SQLException {
         User userFromBody = ctx.bodyAsClass(User.class);
         User resultUser = userService.registerNewUser(userFromBody);
         // if resultUser != null --> else send 401?
+        ctx.cookie(CookieUtil.createAuthCookie(resultUser));
         ctx.json(resultUser).status(200);
     }
 

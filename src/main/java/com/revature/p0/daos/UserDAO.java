@@ -14,6 +14,15 @@ public class UserDAO {
     }
 
     // READ: user (by id or username)
+    public boolean checkUserExists(String username) throws SQLException {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
+        ResultSet results = ps.executeQuery();
+
+        return results.next();
+    }
+
     public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement ps = conn.prepareStatement(sql);

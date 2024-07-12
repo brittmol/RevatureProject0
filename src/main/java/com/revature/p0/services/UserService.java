@@ -17,6 +17,10 @@ public class UserService {
         return userDAO.getUserByUsername(username);
     }
 
+    public boolean checkUserExists(String username) throws SQLException {
+        return this.userDAO.checkUserExists(username);
+    }
+
     public User registerNewUser(User user) throws SQLException {
         //TODO: check if username already exists and other constraints
         return userDAO.saveUser(user);
