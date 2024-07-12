@@ -2,7 +2,6 @@ package com.revature.p0.services;
 
 import com.revature.p0.daos.*;
 import com.revature.p0.models.*;
-import com.revature.p0.exceptions.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class TransactionService {
             account.setBalance(account.getBalance() + amount);
             accountDAO.saveAccount(account);
             Transaction transaction = new Transaction("deposit", amount, accountId);
-            transactionDAO.saveTransaction(transaction);
+            transactionDAO.createTransaction(transaction);
         } // else throw exception "Account not found"
     }
 
@@ -37,7 +36,7 @@ public class TransactionService {
                 account.setBalance(account.getBalance() - amount);
                 accountDAO.saveAccount(account);
                 Transaction transaction = new Transaction("withdrawal", amount, accountId);
-                transactionDAO.saveTransaction(transaction);
+                transactionDAO.createTransaction(transaction);
             } // else throw exception "Insufficient funds"
         } // else throw exception "Account not found"
     }

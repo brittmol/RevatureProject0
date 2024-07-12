@@ -36,25 +36,8 @@ public class TransactionDAO {
 
     }
 
-    // READ: get transaction (by transaction id)
-    public Transaction getTransactionById(Integer id) throws SQLException {
-        String sql = "SELECT * FROM transactions WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-
-        ResultSet results = ps.executeQuery();
-        Transaction transaction = new Transaction();
-        if(results.next()) {
-            transaction.setId(results.getInt("id"));
-            transaction.setTransactionType(results.getString("transaction_type"));
-            transaction.setAmount(results.getDouble("amount"));
-            transaction.setAccountId(results.getInt("account_id"));
-        }
-        return transaction;
-    }
-
     // CREATE/UPDATE transaction
-    public Transaction saveTransaction(Transaction transaction) throws SQLException {
+    public Transaction createTransaction(Transaction transaction) throws SQLException {
         if(transaction.getId() == null) {
             // CREATE transaction
             String sql = "INSERT INTO transactions(transaction_type, amount, account_id) VALUES(?, ?, ?)";
