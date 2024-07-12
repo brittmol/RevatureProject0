@@ -1,5 +1,6 @@
 package com.revature.p0.controllers;
 
+import com.revature.p0.exceptions.CannotDeleteAccountException;
 import com.revature.p0.models.*;
 import com.revature.p0.services.*;
 import io.javalin.Javalin;
@@ -20,7 +21,7 @@ public class AccountController {
 
         api.get("/accounts/{username}", this::getUserAccounts);
         api.post("/accounts", this::createAccount);
-        api.delete("/accounts/{accountType}", this::deleteAccount);
+        api.delete("/accounts/{accountId}", this::deleteAccount);
     }
 
     public void getUserAccounts(Context ctx) throws SQLException {
@@ -31,11 +32,15 @@ public class AccountController {
     }
 
     public void createAccount(Context ctx) throws SQLException {
-
+        Account accountFromBody = ctx.bodyAsClass(Account.class);
+        Account newAccount = accountService.createNewAccount(accountFromBody);
+        ctx.json(newAccount).status(200);
     }
 
-    public void deleteAccount(Context ctx) throws SQLException {
-
+    public void deleteAccount(Context ctx) throws SQLException, CannotDeleteAccountException {
+        Integer accountId = Integer.valueOf(ctx.pathParam("accountId"));
+        Account account = accountService.deleteAccount(accountId);
+        ctx.json(account).status(200);
     }
 
 }

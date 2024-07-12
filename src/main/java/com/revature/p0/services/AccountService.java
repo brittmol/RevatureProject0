@@ -22,15 +22,17 @@ public class AccountService {
         return accountDAO.saveAccount(account);
     }
 
-    public void deleteAccount(Account account) throws CannotDeleteAccountException, SQLException {
-        Account foundAccount = accountDAO.getAccountById(account.getId());
+    public Account deleteAccount(Integer accountId) throws CannotDeleteAccountException, SQLException {
+        Account foundAccount = accountDAO.getAccountById(accountId);
         if(foundAccount != null) {
             if(foundAccount.getBalance() == 0) {
-                accountDAO.deleteAccount(foundAccount);
+                return accountDAO.deleteAccount(foundAccount);
             } else {
                 throw new CannotDeleteAccountException("Cannot delete account while there is a balance");
             }
         }
+        return null;
+        // throw account not found exception
     }
 
 
